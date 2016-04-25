@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"log"
 	"os"
 	"sync"
@@ -65,7 +64,9 @@ func main() {
 		close(footprints)
 	}()
 
-	for f := range footprints {
-		fmt.Println(f)
+	if r, err := process(footprints); err != nil {
+		log.Println(err)
+	} else {
+		os.Stdout.Write(r)
 	}
 }
