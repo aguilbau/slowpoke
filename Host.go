@@ -43,7 +43,12 @@ func getHash(data []byte) string {
 }
 
 func (h Host) Get() (*Footprint, error) {
-	resp, err := httpClient.Get(h.Url)
+	req, err := http.NewRequest("GET", h.Url, nil)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Add("User-Agent", "slowpoke")
+	resp, err := httpClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
